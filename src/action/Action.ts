@@ -83,7 +83,7 @@ export class Action {
 
     async postExecutor(params) {
         try {
-            return await post(this.content.path, params);
+            return await post(this.content.path, params, this.content.headers);
         } catch (err) {
             console.error(err);
             //todo add union Error  consturctor

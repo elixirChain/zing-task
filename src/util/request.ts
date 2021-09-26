@@ -66,11 +66,12 @@ async function get(url, params) {
  * @param {object} params 参数对象
  * @return {object} 响应
  */
-async function post(url, params?) {
+async function post(url, params?, headers?) {
   return await request({
     uri: url,
     method: 'POST',
     body: params,
+    headers: headers
   });
 }
 
@@ -123,8 +124,8 @@ function getErrorMessage(res) {
     errMsg = res.msg;
   } else if (!!res.error && (typeof res.error) === 'string') {
     errMsg = res.error;
-  } else if (!!res.error){
-    if(!!res.error.msg) {
+  } else if (!!res.error) {
+    if (!!res.error.msg) {
       errMsg = res.error.msg;
     } else if (!!res.error.message) {
       errMsg = res.error.message;
@@ -135,7 +136,7 @@ function getErrorMessage(res) {
   return errMsg;
 }
 
-export  {
+export {
   request,
   get,
   post,
