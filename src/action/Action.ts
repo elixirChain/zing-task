@@ -103,9 +103,16 @@ export class Action {
 
     async dbExecutor(params) {
         // "executeSql params: ", sql, binds, options
+        //todo check params
         try {
+            let sql = '';
+            if (!!this.content.knexFunc) {
+                sql = this.content.knexFunc(params);
+            } else if (!!this.content.sql) {
+                sql = this.content.sql;
+            }
             return await this.context.connetion.executeSqlRaw({
-                sql: this.content.sql,
+                sql: sql,
                 binds: params,
                 options: this.content.options
             });
