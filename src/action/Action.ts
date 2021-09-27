@@ -105,15 +105,18 @@ export class Action {
         // "executeSql params: ", sql, binds, options
         //todo check params
         try {
-            let sql = '';
+            let tempSql = '';
+            let tempParams = {};
             if (!!this.content.knexFunc) {
-                sql = this.content.knexFunc(params);
+                tempSql = this.content.knexFunc(params).sql;
+                tempParams = this.content.knexFunc(params).bindings;
             } else if (!!this.content.sql) {
-                sql = this.content.sql;
+                tempSql = this.content.sql;
+                tempParams = params;
             }
             return await this.context.connetion.executeSqlRaw({
-                sql: sql,
-                binds: params,
+                sql: tempSql,
+                binds: tempParams,
                 options: this.content.options
             });
         } catch (err) {
